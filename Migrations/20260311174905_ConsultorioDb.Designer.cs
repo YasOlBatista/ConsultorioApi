@@ -3,6 +3,7 @@ using ConsultorioApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsultorioApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260311174905_ConsultorioDb")]
+    partial class ConsultorioDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,9 +52,8 @@ namespace ConsultorioApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Numero")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Numero")
+                        .HasColumnType("int");
 
                     b.Property<string>("Uf")
                         .IsRequired()
@@ -60,32 +62,6 @@ namespace ConsultorioApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Consultorios");
-                });
-
-            modelBuilder.Entity("ConsultorioApi.Models.Medico", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ConsultorioId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Crm")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ConsultorioId");
-
-                    b.ToTable("Medicos");
                 });
 
             modelBuilder.Entity("ConsultorioApi.Models.Paciente", b =>
@@ -111,17 +87,6 @@ namespace ConsultorioApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Pacientes");
-                });
-
-            modelBuilder.Entity("ConsultorioApi.Models.Medico", b =>
-                {
-                    b.HasOne("ConsultorioApi.Models.Consultorio", "Consultorio")
-                        .WithMany()
-                        .HasForeignKey("ConsultorioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Consultorio");
                 });
 #pragma warning restore 612, 618
         }
